@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-parchment text-gray-900;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medieval transition-colors;
+  }
+  
+  .btn-primary {
+    @apply btn bg-primary text-white hover:bg-primary-dark disabled:opacity-50;
+  }
+  
+  .input-field {
+    @apply w-full p-2 border border-gray-300 rounded-lg bg-white/80 focus:ring-primary focus:border-primary;
+  }
+  
+  .event-card {
+    @apply p-4 mb-2 rounded-lg bg-white/90 border-l-4;
+  }
+  
+  .event-death {
+    @apply border-red-600;
+  }
+  
+  .event-ascension {
+    @apply border-purple-600;
+  }
+  
+  .event-war {
+    @apply border-orange-600;
+  }
+  
+  .event-monument {
+    @apply border-blue-600;
+  }
+  
+  .event-review {
+    @apply border-green-600;
+  }
+}
