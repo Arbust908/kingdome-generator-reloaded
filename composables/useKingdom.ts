@@ -78,7 +78,7 @@ export const useKingdom = () => {
   }
 
   const rollAttribute = (): number => {
-    return Math.floor(Math.random() * 6) + Math.floor(Math.random() * 6) + Math.floor(Math.random() * 6) + 3
+    return Math.round(Math.floor(Math.random() * 6) + Math.floor(Math.random() * 6) + Math.floor(Math.random() * 6) + 3)
   }
 
   const generateAttributes = (parent: Noble | null): Attributes => {
@@ -95,12 +95,12 @@ export const useKingdom = () => {
 
     // Inherit attributes from parent with some variation
     return {
-      strength: Math.max(3, Math.min(18, parent.attributes.strength + (Math.random() * 4 - 2))),
-      dexterity: Math.max(3, Math.min(18, parent.attributes.dexterity + (Math.random() * 4 - 2))),
-      constitution: Math.max(3, Math.min(18, parent.attributes.constitution + (Math.random() * 4 - 2))),
-      intelligence: Math.max(3, Math.min(18, parent.attributes.intelligence + (Math.random() * 4 - 2))),
-      wisdom: Math.max(3, Math.min(18, parent.attributes.wisdom + (Math.random() * 4 - 2))),
-      charisma: Math.max(3, Math.min(18, parent.attributes.charisma + (Math.random() * 4 - 2)))
+      strength: Math.round(Math.max(3, Math.min(18, parent.attributes.strength + (Math.random() * 4 - 2)))),
+      dexterity: Math.round(Math.max(3, Math.min(18, parent.attributes.dexterity + (Math.random() * 4 - 2)))),
+      constitution: Math.round(Math.max(3, Math.min(18, parent.attributes.constitution + (Math.random() * 4 - 2)))),
+      intelligence: Math.round(Math.max(3, Math.min(18, parent.attributes.intelligence + (Math.random() * 4 - 2)))),
+      wisdom: Math.round(Math.max(3, Math.min(18, parent.attributes.wisdom + (Math.random() * 4 - 2)))),
+      charisma: Math.round(Math.max(3, Math.min(18, parent.attributes.charisma + (Math.random() * 4 - 2))))
     }
   }
 
@@ -111,29 +111,29 @@ export const useKingdom = () => {
     
     // Physical attributes decline after peak
     if (noble.age > physicalPeak) {
-      noble.attributes.strength = Math.max(3, noble.attributes.strength - Math.random() * 0.5)
-      noble.attributes.dexterity = Math.max(3, noble.attributes.dexterity - Math.random() * 0.5)
-      noble.attributes.constitution = Math.max(3, noble.attributes.constitution - Math.random() * 0.3)
+      noble.attributes.strength = Math.round(Math.max(3, noble.attributes.strength - Math.random() * 0.5))
+      noble.attributes.dexterity = Math.round(Math.max(3, noble.attributes.dexterity - Math.random() * 0.5))
+      noble.attributes.constitution = Math.round(Math.max(3, noble.attributes.constitution - Math.random() * 0.3))
     } else if (noble.age > noble.race.maturityAge) {
       // Physical attributes can still improve until peak
-      noble.attributes.strength += Math.random() * 0.3
-      noble.attributes.dexterity += Math.random() * 0.3
-      noble.attributes.constitution += Math.random() * 0.2
+      noble.attributes.strength = Math.round(Math.min(18, noble.attributes.strength + Math.random() * 0.3))
+      noble.attributes.dexterity = Math.round(Math.min(18, noble.attributes.dexterity + Math.random() * 0.3))
+      noble.attributes.constitution = Math.round(Math.min(18, noble.attributes.constitution + Math.random() * 0.2))
     }
 
     // Mental attributes improve until later peak
     if (noble.age <= mentalPeak) {
-      noble.attributes.intelligence += Math.random() * 0.2
-      noble.attributes.wisdom += Math.random() * 0.3
+      noble.attributes.intelligence = Math.round(Math.min(18, noble.attributes.intelligence + Math.random() * 0.2))
+      noble.attributes.wisdom = Math.round(Math.min(18, noble.attributes.wisdom + Math.random() * 0.3))
     }
 
     // Leadership and social skills improve with age
     if (ageRatio < 0.7) {
-      noble.attributes.charisma += Math.random() * 0.2
+      noble.attributes.charisma = Math.round(Math.min(18, noble.attributes.charisma + Math.random() * 0.2))
     }
 
     // Log significant changes
-    if (Math.random() < 0.1) {
+    if (Math.random() < 0.025) {
       events.value.push({
         year: kingdom.value?.year || 0,
         type: 'evolution',
@@ -221,7 +221,7 @@ export const useKingdom = () => {
     const featureBonus = noble.specialFeatures.reduce((sum, feature) => sum + feature.powerBonus, 0)
     const ageBonus = Math.min(noble.age / noble.race.maturityAge, 2)
     
-    return (attrBonus + featureBonus) * ageBonus
+    return Math.round((attrBonus + featureBonus) * ageBonus)
   }
 
   const createNoble = (parent: Noble | null, house: NobleHouse): Noble => {
@@ -294,10 +294,10 @@ export const useKingdom = () => {
     config.value.nobleHouseNames.forEach(name => {
       const house: NobleHouse = {
         name,
-        maxSize: 1000,
+        maxSize: 100, // Changed from 1000 to 100
         deadNobles: [],
         livingNobles: [],
-        power: Math.floor(Math.random() * 10),
+        power: Math.round(Math.random() * 10),
         leader: null,
         regent: null
       }
@@ -542,7 +542,7 @@ export const useKingdom = () => {
       }
     }
 
-    house.power = house.livingNobles.reduce((total, noble) => total + noble.power, 0) / house.livingNobles.length
+    house.power = Math.round(house.livingNobles.reduce((total, noble) => total + noble.power, 0) / house.livingNobles.length)
   }
 
   const getChildChance = (noble: Noble): number => {
@@ -594,10 +594,10 @@ export const useKingdom = () => {
     let review = `Kingdom Review - Year ${kingdom.value.year}\n`
     review += `Ruler: ${ruler?.title} ${ruler?.name} ${ruler?.sobriquet}\n`
     review += `Race: ${ruler?.race.name} (Age: ${ruler?.age})\n`
-    review += `Power: ${ruler?.power.toFixed(1)}\n`
-    review += `Attributes: STR ${ruler?.attributes.strength.toFixed(1)}, DEX ${ruler?.attributes.dexterity.toFixed(1)}, `
-    review += `CON ${ruler?.attributes.constitution.toFixed(1)}, INT ${ruler?.attributes.intelligence.toFixed(1)}, `
-    review += `WIS ${ruler?.attributes.wisdom.toFixed(1)}, CHA ${ruler?.attributes.charisma.toFixed(1)}\n`
+    review += `Power: ${ruler?.power}\n`
+    review += `Attributes: STR ${ruler?.attributes.strength}, DEX ${ruler?.attributes.dexterity}, `
+    review += `CON ${ruler?.attributes.constitution}, INT ${ruler?.attributes.intelligence}, `
+    review += `WIS ${ruler?.attributes.wisdom}, CHA ${ruler?.attributes.charisma}\n`
     review += `Special Features: ${ruler?.specialFeatures.map(f => f.name).join(', ')}\n\n`
     review += `Noble Houses:\n`
     
@@ -607,14 +607,20 @@ export const useKingdom = () => {
         return acc
       }, {} as Record<string, number>)
       
-      const avgPower = house.livingNobles.reduce((sum, noble) => sum + noble.power, 0) / house.livingNobles.length
+      const avgPower = Math.round(house.livingNobles.reduce((sum, noble) => sum + noble.power, 0) / house.livingNobles.length)
       
       review += `- House ${house.name}:\n`
-      review += `  Living Nobles: ${house.livingNobles.length}, Avg Power: ${avgPower.toFixed(1)}\n`
+      review += `  Living Nobles: ${house.livingNobles.length}, Avg Power: ${avgPower}\n`
       review += `  Races: ${Object.entries(raceCount).map(([race, count]) => `${race}: ${count}`).join(', ')}\n`
     })
 
     return review
+  }
+
+  const cleanKingdom = () => {
+    kingdom.value = null
+    events.value = []
+    isGenerating.value = false
   }
 
   return {
@@ -623,6 +629,7 @@ export const useKingdom = () => {
     isGenerating,
     currentYear,
     config,
-    generateKingdom
+    generateKingdom,
+    cleanKingdom
   }
 }

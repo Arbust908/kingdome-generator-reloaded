@@ -18,6 +18,10 @@
   .btn-primary {
     @apply btn bg-primary text-white hover:bg-primary-dark disabled:opacity-50;
   }
+
+  .btn-secondary {
+    @apply btn bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-50;
+  }
   
   .input-field {
     @apply w-full p-2 border border-gray-300 rounded-lg bg-white/80 focus:ring-primary focus:border-primary;

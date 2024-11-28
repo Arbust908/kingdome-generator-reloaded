@@ -123,18 +123,20 @@
               </div>
             </div>
 
-            <button 
-              @click="generateKingdom"
-              class="btn-primary w-full"
-              :disabled="isGenerating"
-            >
-              <span v-if="isGenerating">
-                Generating Year {{ currentYear }}...
-              </span>
-              <span v-else>
-                Generate Kingdom History
-              </span>
-            </button>
+            <div class="flex gap-4">
+              <button 
+                @click="generateKingdom"
+                class="btn-primary flex-1"
+                :disabled="isGenerating"
+              >
+                <span v-if="isGenerating">
+                  Generating Year {{ currentYear }}...
+                </span>
+                <span v-else>
+                  Generate Kingdom History
+                </span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -171,12 +173,12 @@
               <div class="mt-2">
                 <span class="font-semibold">Attributes:</span>
                 <div class="grid grid-cols-2 gap-x-4 text-sm mt-1">
-                  <p>STR: {{ kingdom.ruler.attributes.strength.toFixed(1) }}</p>
-                  <p>DEX: {{ kingdom.ruler.attributes.dexterity.toFixed(1) }}</p>
-                  <p>CON: {{ kingdom.ruler.attributes.constitution.toFixed(1) }}</p>
-                  <p>INT: {{ kingdom.ruler.attributes.intelligence.toFixed(1) }}</p>
-                  <p>WIS: {{ kingdom.ruler.attributes.wisdom.toFixed(1) }}</p>
-                  <p>CHA: {{ kingdom.ruler.attributes.charisma.toFixed(1) }}</p>
+                  <p>STR: {{ kingdom.ruler.attributes.strength }}</p>
+                  <p>DEX: {{ kingdom.ruler.attributes.dexterity }}</p>
+                  <p>CON: {{ kingdom.ruler.attributes.constitution }}</p>
+                  <p>INT: {{ kingdom.ruler.attributes.intelligence }}</p>
+                  <p>WIS: {{ kingdom.ruler.attributes.wisdom }}</p>
+                  <p>CHA: {{ kingdom.ruler.attributes.charisma }}</p>
                 </div>
               </div>
               <div class="mt-2">
@@ -185,7 +187,7 @@
               </div>
               <p v-if="config.inlinePower">
                 <span class="font-semibold">Power:</span> 
-                {{ kingdom.ruler.power.toFixed(1) }}
+                {{ kingdom.ruler.power }}
               </p>
             </div>
           </div>
@@ -203,7 +205,7 @@
                   <span class="text-gray-600">
                     {{ house.livingNobles.length }} nobles
                     <span v-if="config.inlinePower">
-                      (Power: {{ house.power.toFixed(1) }})
+                      (Power: {{ house.power }})
                     </span>
                   </span>
                 </div>
@@ -223,7 +225,7 @@
 <script setup lang="ts">
 import type { NobleHouse } from '~/types/kingdom'
 
-const { kingdom, events, isGenerating, currentYear, config, generateKingdom } = useKingdom()
+const { kingdom, events, isGenerating, currentYear, config, generateKingdom, cleanKingdom } = useKingdom()
 
 // Computed properties for input handling
 const nobleHousesInput = computed({
